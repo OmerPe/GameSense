@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GameSense.Data;
 using GameSense.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace GameSense.Controllers
 {
@@ -20,11 +21,23 @@ namespace GameSense.Controllers
         }
 
         // GET: Games
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            return View(await _context.Gamedb.ToListAsync());
-        }
+            var games = from m in _context.Gamedb
+                         select m;
 
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                games = games.Where(s => s.Name.Contains(searchString));
+            }
+
+            return View(await games.ToListAsync());
+        }
+        [HttpPost]
+        public string Index(string searchString, bool notUsed)
+        {
+            return "From [HttpPost]Index: filter on " + searchString;
+        }
         // GET: Games/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -80,6 +93,7 @@ namespace GameSense.Controllers
             }
             return View(game);
         }
+      
 
         // POST: Games/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
@@ -149,5 +163,19 @@ namespace GameSense.Controllers
         {
             return _context.Gamedb.Any(e => e.ID == id);
         }
+        public IActionResult SearchGame(string GameName, string Genre, string Developer)
+        {
+            ViewBag.usr = HttpContext.Session.GetInt32("usr");
+            if (HttpContext.Session.GetString("Type") == null)
+            {
+                ViewBag.message = "Log in";
+            }
+            else
+            {
+                ViewBag.message2 = "Hi " + HttpContext.Session.GetString("userName").ToString();
+            }
+            return View();
+        }
     }
+   
 }
