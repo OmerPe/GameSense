@@ -24,5 +24,6 @@ namespace GameSense.Models
         public Coordinates DeveloperLocation { get; set; }
         [Required]
         public string Description { get; set; }
+        private int Views { get; set; }
     }
 }
