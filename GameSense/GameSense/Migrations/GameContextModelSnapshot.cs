@@ -19,30 +19,6 @@ namespace GameSense.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("GameSense.Models.Coordinates", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("gameId")
-                        .HasColumnType("int");
-
-                    b.Property<double>("latitude")
-                        .HasColumnType("float");
-
-                    b.Property<double>("longtitude")
-                        .HasColumnType("float");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("gameId")
-                        .IsUnique();
-
-                    b.ToTable("Coordinates");
-                });
-
             modelBuilder.Entity("GameSense.Models.Game", b =>
                 {
                     b.Property<int>("ID")
@@ -58,6 +34,9 @@ namespace GameSense.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("DeveloperLocation")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Genre")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -66,8 +45,14 @@ namespace GameSense.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Path")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("ReleaseDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("Views")
+                        .HasColumnType("int");
 
                     b.Property<int>("ageRestriction")
                         .HasColumnType("int");
@@ -129,15 +114,6 @@ namespace GameSense.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Usrdb");
-                });
-
-            modelBuilder.Entity("GameSense.Models.Coordinates", b =>
-                {
-                    b.HasOne("GameSense.Models.Game", null)
-                        .WithOne("DeveloperLocation")
-                        .HasForeignKey("GameSense.Models.Coordinates", "gameId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("GameSense.Models.GameList", b =>

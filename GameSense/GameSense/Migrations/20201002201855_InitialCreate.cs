@@ -18,7 +18,10 @@ namespace GameSense.Migrations
                     Genre = table.Column<string>(nullable: false),
                     ageRestriction = table.Column<int>(nullable: false),
                     Developer = table.Column<string>(nullable: false),
-                    Description = table.Column<string>(nullable: false)
+                    DeveloperLocation = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: false),
+                    Path = table.Column<string>(nullable: true),
+                    Views = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -40,27 +43,6 @@ namespace GameSense.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Usrdb", x => x.ID);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Coordinates",
-                columns: table => new
-                {
-                    ID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    gameId = table.Column<int>(nullable: false),
-                    latitude = table.Column<double>(nullable: false),
-                    longtitude = table.Column<double>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Coordinates", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_Coordinates_Gamedb_gameId",
-                        column: x => x.gameId,
-                        principalTable: "Gamedb",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -90,12 +72,6 @@ namespace GameSense.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Coordinates_gameId",
-                table: "Coordinates",
-                column: "gameId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_GameList_gameId",
                 table: "GameList",
                 column: "gameId");
@@ -108,9 +84,6 @@ namespace GameSense.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Coordinates");
-
             migrationBuilder.DropTable(
                 name: "GameList");
 
