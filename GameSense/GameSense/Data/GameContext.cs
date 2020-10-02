@@ -12,7 +12,6 @@ namespace GameSense.Data
         public GameContext(DbContextOptions<GameContext> options): base(options)
         {
         }
-
         public DbSet<Game> Gamedb { get; set; }
         public DbSet<User> Usrdb { get; set; }
     }

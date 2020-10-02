@@ -21,17 +21,39 @@ namespace GameSense.Controllers
         }
 
         // GET: Games
-        public async Task<IActionResult> Index(string searchString)
+        public async Task<IActionResult> Index(string Genre,string Developer, string searchString)
         {
-            var games = from m in _context.Gamedb
-                         select m;
+            IQueryable<string> genreQuery = from G in _context.Gamedb
+                                            orderby G.Genre
+                                            select G.Genre;
+            IQueryable<string> devQuery = from D in _context.Gamedb
+                                            orderby D.Developer
+                                            select D.Developer;
 
-            if (!String.IsNullOrEmpty(searchString))
+            var games = from G in _context.Gamedb
+                         select G;
+ 
+            if (!string.IsNullOrEmpty(searchString))
             {
                 games = games.Where(s => s.Name.Contains(searchString));
             }
+            if (!string.IsNullOrEmpty(Genre))
+            {
+                games = games.Where(g => g.Genre == Genre);
+            }
+            if (!string.IsNullOrEmpty(Developer))
+            {
+                games = games.Where(d => d.Developer == Developer);
+            }
 
-            return View(await games.ToListAsync());
+            var GameSearch = new GameSearchModel
+            {
+                Genres = new SelectList(await genreQuery.Distinct().ToListAsync()),
+                Developers = new SelectList(await devQuery.Distinct().ToListAsync()),
+                Games = await games.ToListAsync()
+            };
+
+            return View(GameSearch);
         }
         [HttpPost]
         public string Index(string searchString, bool notUsed)
