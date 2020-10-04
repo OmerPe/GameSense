@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GameSense.Data;
 using GameSense.Models;
+using GameSense.Controllers;
 
 namespace GameSense.Controllers
 {
@@ -20,9 +21,22 @@ namespace GameSense.Controllers
         }
 
         // GET: Users
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Usrdb.ToListAsync());
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Index([Bind("UserName,Password,ConfirmPassword,Email,firstName,lastName,DateOfBirth")] User user)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(user);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(goHome));
+            }
+            return View(user);
         }
 
         // GET: Users/Details/5
@@ -44,7 +58,7 @@ namespace GameSense.Controllers
         }
 
         // GET: Users/Create
-        public IActionResult Create()
+        public IActionResult Register()
         {
             return View();
         }
@@ -54,15 +68,24 @@ namespace GameSense.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,UserName,Password,Email,firstName,lastName")] User user)
+        public async Task<IActionResult> Register([Bind("UserName,Password,ConfirmPassword,Email,firstName,lastName,DateOfBirth")] User user)
         {
             if (ModelState.IsValid)
             {
+                if(!string.IsNullOrEmpty("asd"))
+                {
+                    ViewData["EmailError"] = "This email already exists";
+                    return View();
+                }
                 _context.Add(user);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(goHome));
             }
             return View(user);
+        }
+        public IActionResult goHome()
+        {
+            return View("../Home/Index");
         }
 
         // GET: Users/Edit/5
@@ -86,7 +109,7 @@ namespace GameSense.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,UserName,Password,Email,firstName,lastName")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("UserName,Password,ConfirmPassword,Email,firstName,lastName,DateOfBirth")] User user)
         {
             if (id != user.ID)
             {

@@ -35,10 +35,13 @@ namespace GameSense.Migrations
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserName = table.Column<string>(nullable: false),
-                    Password = table.Column<string>(nullable: false),
+                    Password = table.Column<string>(maxLength: 100, nullable: false),
+                    ConfirmPassword = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: false),
                     firstName = table.Column<string>(nullable: false),
-                    lastName = table.Column<string>(nullable: false)
+                    lastName = table.Column<string>(nullable: false),
+                    DateOfBirth = table.Column<DateTime>(nullable: false),
+                    Role = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

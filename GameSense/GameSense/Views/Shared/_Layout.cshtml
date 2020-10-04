@@ -55,42 +55,11 @@
                         </li>
                     }
 
-                    @if ((string)ViewData["Title"] == "logIn")
-                    {
-                        @if (ViewData["Uname"] == null)
-                        {
-                            <li class="nav-item active">
-                                <a class="nav-link" asp-area="" asp-controller="Users" asp-action="Index">Log in<span class="sr-only">(current)</span></a>
-                            </li>
-                        }
-                        else
-                        {
-                            <li class="nav-item active">
-                                <a class="nav-link" asp-area="" asp-controller="Users" asp-action="Index">Hello @ViewData["Uname"]<span class="sr-only">(current)</span></a>
-                            </li>
-                        }
-                    }
-                    else
-                    {
-                        @if (ViewData["Uname"] == null)
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="Users" asp-action="Index">Log in</a>
-                            </li>
-                        }
-                        else
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="Users" asp-action="Index">Hello @ViewData["Uname"]</a>
-                            </li>
-                        }
-                    }
-
                 </ul>
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="text" placeholder="Search">
-                    <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-                </form>
+                <ul class="navbar-nav">
+                    <a class="nav-link" asp-area="" asp-controller="Users" asp-action="Index">Log in</a>
+                </ul>
+
             </div>
         </nav>
     </header>
