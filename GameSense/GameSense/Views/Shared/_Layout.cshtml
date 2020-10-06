@@ -1,0 +1,108 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - GameSense</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap_Simplex.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">GameSense</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarColor01">
+                <ul class="navbar-nav mr-auto">
+                    @if ((string)ViewData["Title"] == "Home Page")
+                    {
+                        <li class="nav-item active">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home <span class="sr-only">(current)</span></a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                    }
+                    @if (User.IsInRole("Admin"))
+                    {
+                        @if ((string)ViewData["Title"] == "Game List")
+                        {
+                            <li class="nav-item active">
+                                <a class="nav-link" asp-area="" asp-controller="Games" asp-action="Index">Game List<span class="sr-only">(current)</span></a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Games" asp-action="Index">Game List</a>
+                            </li>
+                        }
+                    }
+                    else
+                    {
+                        @if ((string)ViewData["Title"] == "Game List")
+                        {
+                            <li class="nav-item active">
+                                <a class="nav-link" asp-area="" asp-controller="Games" asp-action="UserIndex">Game List<span class="sr-only">(current)</span></a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Games" asp-action="UserIndex">Game List</a>
+                            </li>
+                        }
+                    }
+
+                    @if ((string)ViewData["Title"] == "About")
+                    {
+                        <li class="nav-item active">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="About">About<span class="sr-only">(current)</span></a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="About">About</a>
+                        </li>
+                    }
+
+                </ul>
+                <partial name="_LoginPartial" />
+
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2020 - GameSense - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+    <script>
+        $('a').click(function () {
+            $(this).addClass('active')
+                .siblings()
+                .removeClass('active');
+        });
+    </script>
+</body>
+</html>

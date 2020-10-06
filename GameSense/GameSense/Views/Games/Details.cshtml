@@ -1,0 +1,55 @@
+﻿@model GameSense.Models.Game
+@{
+    ViewData["Title"] = ViewBag.Name;
+}
+<link href="~/css/DetailStyle.css" rel="stylesheet" />
+<div asp-controller="Games" asp-action="UpdateViews" asp-route-id="@Model.ID"></div>
+<h1>Details</h1>
+
+<div class="cardD mb-3">
+    <h6 class="card-header d-flex align-items-center py-2">
+        <span class="mx-1">@Html.DisplayFor(model => model.Name)</span>
+    </h6>
+    <div class="card-body p-0">
+        <div class="row edit">
+            <div class="col-xl-3 col-lg-4 col-md-5">
+                <a asp-controller="Games" asp-action="UpdateViews" asp-route-id="@Model.ID">
+                    <img class="rounded thumbnail" style="background-image:url('@Model.Path');" />
+                </a>
+            </div>
+            <div class="col-xl-9 col-lg-8 col-md-7">
+                <div class="row m-0 py-1 px-0">
+                    <div class="col-lg-3 col-xl-2 strong">Title ID:</div>
+                    <div class="col-lg-9 col-xl-10">@Html.DisplayFor(model => model.ID)</div>
+                </div>
+                <div class="row m-0 py-1 px-0 border-top">
+                    <div class="col-lg-3 col-xl-2 strong">Ganre</div>
+                    <div class="col-lg-5 col-xl-10">@Html.DisplayFor(model => model.Genre)</div>
+                </div>
+                <div class="row m-0 py-1 px-0  border-top">
+                    <div class="col-lg-3 col-xl-2 strong">Release Date:</div>
+                    <div class="col-lg-5 col-xl-10">@Html.DisplayFor(model => model.ReleaseDate)</div>
+                </div>
+                <div class="row m-0 py-1 px-0  border-top">
+                    <div class="col-lg-3 col-xl-2 strong">Age:</div>
+                    <div class="col-lg-5 col-xl-10">@Html.DisplayFor(model => model.ageRestriction)</div>
+                </div>
+                <div class="row m-0 py-1 px-0 border-top">
+                    <div class="col-lg-3 col-xl-2 strong">Developer:</div>
+                    <div class="col-lg-5 col-xl-10">@Html.DisplayFor(model => model.Developer)</div>
+                </div>
+                <div class="row m-0 py-1 px-0 border-top">
+                    <div class="col-lg-3 col-xl-2 strong">Description:</div>
+                    <div class="col-lg-5 col-xl-10">@Html.DisplayFor(model => model.Description)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a asp-controller="Home" asp-action="Index">index</a>
+    <a asp-action="Delete" asp-route-id="@Model.ID"> Delete </a>
+</div>
+<div>
+
+    <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

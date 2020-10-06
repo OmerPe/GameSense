@@ -1,0 +1,11 @@
+﻿body {
+
+}
+.thumbnail {
+    height: 350px;
+    width: 100%;
+    vertical-align: bottom;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}

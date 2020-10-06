@@ -1,0 +1,39 @@
+﻿body {
+}
+.card-img{
+    vertical-align:bottom;
+    background-position:center;
+    background-repeat:no-repeat;
+    background-size:cover;
+    opacity:.8;
+}
+.card {
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
+    padding: 2px;
+    text-align: center;
+    background-color: #f1f1f1;
+    margin:auto;
+}
+.card-body {
+    height: 350px;
+    width: 300px;
+}
+.card-columns{
+    margin:auto;
+    column-count:4;
+}
+.card:hover .overlay {
+    opacity: 0.8;
+}
+.overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transition: .5s ease;
+    background-color: #d9230f;
+}

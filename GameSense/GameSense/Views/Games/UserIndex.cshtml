@@ -1,0 +1,42 @@
+﻿@model GameSense.Models.GameSearchModel
+
+@{ 
+    ViewData["title"] = "Game List";
+}
+
+<link href="~/css/GameStyle.css" rel="stylesheet" />
+
+<h2>Search</h2>
+<form class="form-inline my-2 my-lg-0" asp-controller="Games" asp-action="UserIndex" method="get">
+    <p>
+        Name: <input class="form-control mr-sm-2" type="text" asp-for="SearchString" />
+
+        <select class="form-control mr-sm-2" asp-for="Genre" asp-items="Model.Genres">
+            <option value="">All</option>
+        </select>
+        <select class="form-control mr-sm-2" asp-for="Developer" asp-items="Model.Developers">
+            <option value="">All</option>
+        </select>
+        <input class="btn btn-primary my-2 my-sm-0" type="submit" value="Search" />
+    </p>
+</form>
+
+<div class="card-columns">
+    @foreach (var game in Model.Games)
+    {
+        <div class="card">
+            <div class="card-img" style="background-image:url('@game.Path');">
+                <div class="card-body">
+                    <a asp-action="Details" asp-route-id="@game.ID">
+                        <div class="overlay">
+                            <h3 class="card-title" style="font-size:large">@Html.DisplayFor(modelItem => game.Name)</h3>
+                            <h5 class="card-text" style="font-size:smaller">@Html.DisplayFor(modelItem => game.Genre)</h5>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    }
+
+</div>
