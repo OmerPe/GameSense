@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using GameSense.Data;
 using Microsoft.AspNetCore.Identity;
@@ -10,7 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace GameSense.Models
 {
-    public class SeedData
+    public class SeedGames
     {
         public static void Initialize(IServiceProvider serviceProvider)
         {
@@ -174,6 +175,114 @@ namespace GameSense.Models
 
 
                  );
+                context.SaveChanges();
+            }
+        }
+    }
+
+    public class SeedUser
+    {
+        public static async Task Initialize(GameSenseContext context,
+                               UserManager<User> userManager,
+                               RoleManager<IdentityRole> roleManager)
+        {
+            context.Database.EnsureCreated();
+
+            String adminId1 = "";
+
+            string role1 = "Admin";
+
+            string role2 = "User";
+
+            string role3 = "Editor";
+
+            string password = "P@$$w0rd";
+
+            if (await roleManager.FindByNameAsync(role1) == null)
+            {
+                await roleManager.CreateAsync(new IdentityRole(role1));
+            }
+            if (await roleManager.FindByNameAsync(role2) == null)
+            {
+                await roleManager.CreateAsync(new IdentityRole(role2));
+            }
+            if (await roleManager.FindByNameAsync(role3) == null)
+            {
+                await roleManager.CreateAsync(new IdentityRole(role3));
+            }
+
+            if (await userManager.FindByNameAsync("Admin@Admin.com") == null)
+            {
+                var user = new User
+                {
+                    UserName = "Admin@Admin.com",
+                    Email = "Admin@Admin.com",
+                    firstName = "Admin",
+                    lastName = "Admin",
+                    MyUserName = "Admin"
+                };
+
+                var result = await userManager.CreateAsync(user);
+                if (result.Succeeded)
+                {
+                    await userManager.AddPasswordAsync(user, password);
+                    await userManager.AddToRoleAsync(user, role1);
+                }
+                adminId1 = user.Id;
+            }
+
+            if (await userManager.FindByNameAsync("User@default.com") == null)
+            {
+                var user = new User
+                {
+                    UserName = "User@default.com",
+                    Email = "User@default.com",
+                    firstName = "User",
+                    lastName = "User",
+                    MyUserName = "User"
+                };
+
+                var result = await userManager.CreateAsync(user);
+                if (result.Succeeded)
+                {
+                    await userManager.AddPasswordAsync(user, password);
+                    await userManager.AddToRoleAsync(user, role2);
+                }
+            }
+
+            if (await userManager.FindByNameAsync("Editor@default.com") == null)
+            {
+                var user = new User
+                {
+                    UserName = "Editor@default.com",
+                    Email = "Editor@default.com",
+                    firstName = "Editor",
+                    lastName = "Editor",
+                    MyUserName = "Editor"
+                };
+
+                var result = await userManager.CreateAsync(user);
+                if (result.Succeeded)
+                {
+                    await userManager.AddPasswordAsync(user, password);
+                    await userManager.AddToRoleAsync(user, role3);
+                }
+            }
+        }
+    }
+    public class SeedArticle
+    {
+        public static void Initialize(IServiceProvider serviceProvider)
+        {
+            using (var context = new GameSenseContext(serviceProvider.GetRequiredService<DbContextOptions<GameSenseContext>>()))
+            {
+                if (context.Article.Any())
+                {
+                    return; //db already seeded
+                }
+                context.Article.AddRange(
+                    );
+
                 context.SaveChanges();
             }
         }

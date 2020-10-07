@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GameSense.Data;
 using GameSense.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GameSense.Controllers
 {
@@ -19,13 +20,14 @@ namespace GameSense.Controllers
             _context = context;
         }
 
+        [Authorize(Roles = "Admin,Editor")]
         // GET: Articles
         public async Task<IActionResult> Index()
         {
             var gameSenseContext = _context.Article.Include(a => a.game);
             return View(await gameSenseContext.ToListAsync());
         }
-
+        [Authorize(Roles = "Admin,Editor")]
         // GET: Articles/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -44,7 +46,7 @@ namespace GameSense.Controllers
 
             return View(article);
         }
-
+        [Authorize(Roles = "Admin,Editor")]
         // GET: Articles/Create
         public IActionResult Create()
         {
@@ -55,6 +57,7 @@ namespace GameSense.Controllers
         // POST: Articles/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin,Editor")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,GameID,Path,Content,Likes")] Article article)
@@ -68,7 +71,7 @@ namespace GameSense.Controllers
             ViewData["GameID"] = new SelectList(_context.Gamedb, "ID", "Description", article.GameID);
             return View(article);
         }
-
+        [Authorize(Roles = "Admin,Editor")]
         // GET: Articles/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -89,6 +92,7 @@ namespace GameSense.Controllers
         // POST: Articles/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin,Editor")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,GameID,Path,Content,Likes")] Article article)
@@ -121,7 +125,7 @@ namespace GameSense.Controllers
             ViewData["GameID"] = new SelectList(_context.Gamedb, "ID", "Description", article.GameID);
             return View(article);
         }
-
+        [Authorize(Roles = "Admin,Editor")]
         // GET: Articles/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -140,7 +144,7 @@ namespace GameSense.Controllers
 
             return View(article);
         }
-
+        [Authorize(Roles = "Admin,Editor")]
         // POST: Articles/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

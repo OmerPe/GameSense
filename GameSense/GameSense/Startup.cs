@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using GameSense.Models;
+using GameSense.Data.Migrations;
 
 namespace GameSense
 {
@@ -45,7 +46,8 @@ namespace GameSense
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider services)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider services,
+            GameSenseContext context, RoleManager<IdentityRole> roleManager, UserManager<User> userManager)
         {
             if (env.IsDevelopment())
             {
@@ -74,6 +76,7 @@ namespace GameSense
                 endpoints.MapRazorPages();
             });
 
+            SeedUser.Initialize(context, userManager, roleManager).Wait();
         }
     }
 }

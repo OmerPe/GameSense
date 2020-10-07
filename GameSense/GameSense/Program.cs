@@ -22,7 +22,7 @@ namespace GameSense
 
                 try
                 {
-                    SeedData.Initialize(services);
+                    SeedGames.Initialize(services);
                 }
                 catch (Exception ex)
                 {
