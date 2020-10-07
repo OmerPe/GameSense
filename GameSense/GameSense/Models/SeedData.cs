@@ -211,12 +211,12 @@ namespace GameSense.Models
                 await roleManager.CreateAsync(new IdentityRole(role3));
             }
 
-            if (await userManager.FindByNameAsync("Admin@Admin.com") == null)
+            if (await userManager.FindByNameAsync("Admin@Admin") == null)
             {
                 var user = new User
                 {
-                    UserName = "Admin@Admin.com",
-                    Email = "Admin@Admin.com",
+                    UserName = "Admin@Admin",
+                    Email = "Admin@Admin",
                     firstName = "Admin",
                     lastName = "Admin",
                     MyUserName = "Admin"
@@ -231,12 +231,12 @@ namespace GameSense.Models
                 adminId1 = user.Id;
             }
 
-            if (await userManager.FindByNameAsync("User@default.com") == null)
+            if (await userManager.FindByNameAsync("User@default") == null)
             {
                 var user = new User
                 {
-                    UserName = "User@default.com",
-                    Email = "User@default.com",
+                    UserName = "User@default",
+                    Email = "User@default",
                     firstName = "User",
                     lastName = "User",
                     MyUserName = "User"
@@ -250,12 +250,12 @@ namespace GameSense.Models
                 }
             }
 
-            if (await userManager.FindByNameAsync("Editor@default.com") == null)
+            if (await userManager.FindByNameAsync("Editor@default") == null)
             {
                 var user = new User
                 {
-                    UserName = "Editor@default.com",
-                    Email = "Editor@default.com",
+                    UserName = "Editor@default",
+                    Email = "Editor@default",
                     firstName = "Editor",
                     lastName = "Editor",
                     MyUserName = "Editor"
