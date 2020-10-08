@@ -24,7 +24,8 @@ namespace GameSense.Models
         public int ageRestriction { get; set; }
         [Required]
         public string Developer { get; set; }
-        public String DeveloperLocation { get; set; }
+        public double lat { get; set; }
+        public double lng { get; set; }
         [Required]
         public string Description { get; set; }
         public string Path { get; set; }

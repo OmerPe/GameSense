@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GameSense.Data.Migrations
 {
-    public partial class initialcreate : Migration
+    public partial class initialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -45,7 +45,8 @@ namespace GameSense.Data.Migrations
                     Genre = table.Column<string>(nullable: false),
                     ageRestriction = table.Column<int>(nullable: false),
                     Developer = table.Column<string>(nullable: false),
-                    DeveloperLocation = table.Column<string>(nullable: true),
+                    lat = table.Column<double>(nullable: false),
+                    lng = table.Column<double>(nullable: false),
                     Description = table.Column<string>(nullable: false),
                     Path = table.Column<string>(nullable: true),
                     Views = table.Column<int>(nullable: false)

@@ -31,7 +31,8 @@ namespace GameSense.Models
                         Genre = "RPG",
                         ageRestriction = 7,
                         Developer = "Wizet",
-                        DeveloperLocation = "Seoul, South Korea",
+                        lat = 37.566536,
+                        lng = 126.977966,
                         Description = "MapleStory is a free-to-play, 2D, side-scrolling massively multiplayer online role-playing game," +
                         "In the game, players travel the \"Maple World\"," +
                         " defeating monsters and developing their characters' skills and abilities as is typical in role-playing games." +
@@ -49,7 +50,8 @@ namespace GameSense.Models
                         Genre = "FPS",
                         ageRestriction = 18,
                         Developer = "Infinity Ward",
-                        DeveloperLocation = "Woodland Hills, California, USA",
+                        lat = 34.166760,
+                        lng = -118.604970,
                         Description = "Call of Duty: Modern Warfare is a 2019 first-person shooter video game developed by Infinity Ward and published by Activision.",
                         Path = "https://cdn-products.eneba.com/resized-products/4FTGL0Ta9wnP4dqoBDEEE91a45upnnRDxUHIpKNwvIA_350x200_1x-0.jpeg"
 
@@ -62,7 +64,8 @@ namespace GameSense.Models
                         Genre = "social deduction game",
                         ageRestriction = 7,
                         Developer = "InnerSloth",
-                        DeveloperLocation = "Redmond, Washington, USA",
+                        lat = 47.674911,
+                        lng = -122.124001,
                         Description = "Among Us is an online multiplayer social deduction game, " +
                         "developed and published by American game studio InnerSloth and released on June 15, 2018. " +
                         "The game takes place in a space-themed setting where players each take on one of two roles, most being Crewmates, and a predetermined number being Impostors.",
@@ -77,7 +80,8 @@ namespace GameSense.Models
                         Genre = "FPS",
                         ageRestriction = 16,
                         Developer = "Riot Games",
-                        DeveloperLocation = "Los Angeles, US",
+                        lat = 34.052235,
+                        lng = -118.243683,
                         Description = "Valorant is a team-based tactical shooter and first-person shooter set in the near-future.",
                         Path = "https://cdn.vox-cdn.com/thumbor/4lcShxCTWmtzM3lf5Yq5v2IUNdg=/1400x1050/filters:format(jpeg)/cdn.vox-cdn.com/uploads/chorus_asset/file/19858273/LogoVersion_Beta_Key_Art_VALORANT.jpg"
 
@@ -90,7 +94,8 @@ namespace GameSense.Models
                         Genre = "MOBA",
                         ageRestriction = 12,
                         Developer = "Riot Games",
-                        DeveloperLocation = "Los Angeles, US",
+                        lat = 34.052235,
+                        lng = -118.243683,
                         Description = "In League of Legends, players assume the role of a \"champion\" with unique abilities, varying around their class, and battle against a team of other player- or computer-controlled champions. In the main game mode, Summoner's Rift, the goal is to destroy the opposing team's Nexus, a structure that lies at the heart of their base, protected by defensive structures.",
                         Path = "https://i1.wp.com/vherald.com/wp-content/uploads/2020/02/league-of-legends-1.jpg?fit=1607%2C895&ssl=1"
 
@@ -103,7 +108,8 @@ namespace GameSense.Models
                         Genre = "Turn-base Tactical",
                         ageRestriction = 18,
                         Developer = "Firaxis Games",
-                        DeveloperLocation = "Sparks, Maryland, USA",
+                        lat = 39.530657,
+                        lng = -76.647070,
                         Description = "XCOM: Enemy Unknown casts the player as the commander of an elite military organization. As commander, the player directs their soldiers in turn-based combat missions against alien enemies." +
                         "Between missions, the player directs the organization's research and engineering divisions in creating new technologies and improving XCOM's base of operations, and manages the organization's finances.",
                         Path = "https://upload.wikimedia.org/wikipedia/en/thumb/f/fd/XCOM_Enemy_Unknown_Game_Cover.jpg/220px-XCOM_Enemy_Unknown_Game_Cover.jpg"
@@ -117,7 +123,8 @@ namespace GameSense.Models
                         Genre = "Turn-base Strategy",
                         ageRestriction = 12,
                         Developer = "Firaxis Games",
-                        DeveloperLocation = "Sparks, Maryland, USA",
+                        lat = 39.549130,
+                        lng = -76.681330,
                         Description = "Civilization VI is a turn-based strategy video game in which one or more players compete alongside computer-controlled AI opponents to grow their individual civilization from a small tribe to control of the entire planet across several periods of development." +
                         "This can be accomplished by achieving one of several victory conditions, all based on the 4X gameplay elements, \"eXplore,eXpand,eXploit,and eXterminate\"." +
                         "Players found cities, gather nearby resources to build and expand them by adding various city improvements, and build military units to explore and attack opposing forces, while managing the technology development, culture, and government civics for their civilization and their diplomatic relationships with the other opponents.",
@@ -132,7 +139,8 @@ namespace GameSense.Models
                         Genre = "Battle Royale",
                         ageRestriction = 16,
                         Developer = "Krafton",
-                        DeveloperLocation = "Bundang-gu, Seongnam, South Korea",
+                        lat = 37.377579,
+                        lng = 127.113828,
                         Description = "Battlegrounds is a player versus player shooter game in which up to one hundred players fight in a battle royale, a type of large-scale last man standing deathmatch where players fight to remain the last alive. " +
                         "Players can choose to enter the match solo, duo, or with a small team of up to four people. " +
                         "The last person or team alive wins the match.",
@@ -147,7 +155,8 @@ namespace GameSense.Models
                         Genre = "Racing",
                         ageRestriction = 12,
                         Developer = "Criterion Games",
-                        DeveloperLocation = "Guildford, England",
+                        lat = 51.236445,
+                        lng = -0.569999,
                         Description = "Need for Speed: Most Wanted is set in an open world environment." +
                         " The game takes on the gameplay style of the first Most Wanted title in the Need for Speed franchise." +
                         " Most Wanted allows players to select one car and compete against other racers in three types of events: Sprint races, which involves traveling from one point of the city to another, Circuit races, each having two or three laps total and Speed runs, which involve traversing through a course in the highest average speed possible." +
@@ -163,7 +172,8 @@ namespace GameSense.Models
                         Genre = "Action,Adventure",
                         ageRestriction = 18,
                         Developer = "Rockstar North",
-                        DeveloperLocation = "Edinburgh, Scotland",
+                        lat = 55.952206,
+                        lng = -3.192258,
                         Description = "Grand Theft Auto V is an action-adventure game played from either a third-person or first-person perspective." +
                         " Players complete missions—linear scenarios with set objectives—to progress through the story." +
                         " Outside of the missions, players may freely roam the open world. Composed of the San Andreas open countryside area, including the fictional Blaine County, and the fictional city of Los Santos, the world is much larger in area than earlier entries in the series." +

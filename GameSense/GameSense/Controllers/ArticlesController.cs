@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using GameSense.Data;
 using GameSense.Models;
 using Microsoft.AspNetCore.Authorization;
+using TweetSharp;
 
 namespace GameSense.Controllers
 {
@@ -64,6 +65,20 @@ namespace GameSense.Controllers
         {
             if (ModelState.IsValid)
             {
+                string key = "QNm1VD6rhVk5uQO1lFE4xj3TK";
+                string secret = "wyrMxltWxebxRh0CpWpetfstsZvKCvtleQbM0ybuLkJ9pmIKlS";
+                string token = "392392197-2Tche78I2E0ambYnzoNTHlC58ohagMciJQ31uf33";
+                string tokenSecret = "ODMVW5HsJho3te2XcSHdINGL3q0zPHR70PllOoOWUxq6O";
+
+                var service = new TweetSharp.TwitterService(key, secret);
+                service.AuthenticateWith(token, tokenSecret);
+
+                var result = service.SendTweet(new SendTweetOptions
+                {
+                    Status = "Hey! Game Sense got a new Article for you gamers!\n come check it out!!"
+                });
+
+
                 _context.Add(article);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -71,6 +86,7 @@ namespace GameSense.Controllers
             ViewData["GameID"] = new SelectList(_context.Gamedb, "ID", "Description", article.GameID);
             return View(article);
         }
+
         [Authorize(Roles = "Admin,Editor")]
         // GET: Articles/Edit/5
         public async Task<IActionResult> Edit(int? id)

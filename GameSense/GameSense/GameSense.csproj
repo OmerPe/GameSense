@@ -18,6 +18,8 @@
     <Compile Remove="Migrations\20201006134108_InitianCreate.Designer.cs" />
     <Compile Remove="Migrations\20201006140038_InitialCreate.cs" />
     <Compile Remove="Migrations\20201006140038_InitialCreate.Designer.cs" />
+    <Compile Remove="Migrations\20201008072213_initialcreate.cs" />
+    <Compile Remove="Migrations\20201008072213_initialcreate.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,6 +33,8 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="TweetSharp" Version="2.3.1" />
   </ItemGroup>
 
 </Project>

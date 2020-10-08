@@ -8,6 +8,9 @@ using Microsoft.Extensions.Logging;
 using GameSense.Models;
 using GameSense.Data;
 using Microsoft.EntityFrameworkCore;
+using System.IO;
+using System.Web;
+using TweetSharp;
 
 namespace GameSense.Controllers
 {

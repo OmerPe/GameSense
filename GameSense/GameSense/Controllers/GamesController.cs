@@ -14,7 +14,6 @@ namespace GameSense.Controllers
     public class GamesController : Controller
     {
         private readonly GameSenseContext _context;
-        private string searchString;
 
         public string Genre { get; private set; }
         public string Developer { get; private set; }
@@ -133,6 +132,7 @@ namespace GameSense.Controllers
         // POST: Games/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,Name,ReleaseDate,Genre,ageRestriction,Developer,DeveloperLocation,Description,Path,Views")] Game game)
@@ -147,6 +147,7 @@ namespace GameSense.Controllers
         }
 
         // GET: Games/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -165,6 +166,7 @@ namespace GameSense.Controllers
         // POST: Games/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,Name,ReleaseDate,Genre,ageRestriction,Developer,DeveloperLocation,Description,Path,Views")] Game game)
@@ -198,6 +200,7 @@ namespace GameSense.Controllers
         }
 
         // GET: Games/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -216,6 +219,7 @@ namespace GameSense.Controllers
         }
 
         // POST: Games/Delete/5
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

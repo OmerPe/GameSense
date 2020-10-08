@@ -60,9 +60,6 @@ namespace GameSense.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("DeveloperLocation")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Genre")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -82,6 +79,12 @@ namespace GameSense.Data.Migrations
 
                     b.Property<int>("ageRestriction")
                         .HasColumnType("int");
+
+                    b.Property<double>("lat")
+                        .HasColumnType("float");
+
+                    b.Property<double>("lng")
+                        .HasColumnType("float");
 
                     b.HasKey("ID");
 
