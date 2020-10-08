@@ -21,6 +21,48 @@ namespace GameSense.Controllers
             _context = context;
         }
 
+
+        public async Task<IActionResult> UpdateLikes(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var article = await _context.Article.FirstOrDefaultAsync(m => m.ID == id);
+            if (article == null)
+            {
+                return NotFound();
+            }
+
+            return View("Details", article);
+        }
+
+        [HttpPost, ActionName("UpdateLikes")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateLikesConfirmed(int? id)
+        {
+            if (id == null)
+            {
+                return View("Index");
+            }
+            Article update = _context.Article.ToList().Find(a => a.ID == id);
+
+            update.Likes += 1;
+            await _context.SaveChangesAsync();
+            return View("Details", update);
+        }
+
+        public int Addlike(int? id)
+        {
+            Article update = _context.Article.ToList().Find(a => a.ID == id);
+
+            update.Likes += 1;
+            _context.SaveChanges();
+
+            return update.Likes;
+        }
+
         [Authorize(Roles = "Admin,Editor")]
         // GET: Articles
         public async Task<IActionResult> Index()
@@ -28,7 +70,7 @@ namespace GameSense.Controllers
             var gameSenseContext = _context.Article.Include(a => a.game);
             return View(await gameSenseContext.ToListAsync());
         }
-        [Authorize(Roles = "Admin,Editor")]
+        [AllowAnonymous]
         // GET: Articles/Details/5
         public async Task<IActionResult> Details(int? id)
         {

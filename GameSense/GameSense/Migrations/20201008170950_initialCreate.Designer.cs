@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GameSense.Data.Migrations
 {
     [DbContext(typeof(GameSenseContext))]
-    [Migration("20201008133254_initialCreate")]
+    [Migration("20201008170950_initialCreate")]
     partial class initialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,8 +28,14 @@ namespace GameSense.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("BriefContent")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("GameID")
                         .HasColumnType("int");
@@ -38,6 +44,9 @@ namespace GameSense.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Path")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
@@ -91,6 +100,24 @@ namespace GameSense.Data.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Gamedb");
+                });
+
+            modelBuilder.Entity("GameSense.Models.GameList", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("gameID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("userID")
+                        .HasColumnType("nvarchar(460)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("gameUserConnection");
                 });
 
             modelBuilder.Entity("GameSense.Models.User", b =>
@@ -171,6 +198,24 @@ namespace GameSense.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("GameSense.Models.gameArticle", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("articleID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("gameID")
+                        .HasColumnType("int");
+
+                    b.HasKey("id");
+
+                    b.ToTable("gameArticleConnection");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

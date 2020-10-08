@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using GameSense.Data;
 using GameSense.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace GameSense.Controllers
 {
@@ -23,20 +24,20 @@ namespace GameSense.Controllers
             _context = context;
         }
 
-        [Authorize(Roles ="Admin")]
+        [Authorize(Roles = "Admin")]
         // GET: Games
-        public async Task<IActionResult> Index(string Genre,string Developer, string searchString)
+        public async Task<IActionResult> Index(string Genre, string Developer, string searchString)
         {
             IQueryable<string> genreQuery = from G in _context.Gamedb
                                             orderby G.Genre
                                             select G.Genre;
             IQueryable<string> devQuery = from D in _context.Gamedb
-                                            orderby D.Developer
-                                            select D.Developer;
+                                          orderby D.Developer
+                                          select D.Developer;
 
             var games = from G in _context.Gamedb
-                         select G;
- 
+                        select G;
+
             if (!string.IsNullOrEmpty(searchString))
             {
                 games = games.Where(s => s.Name.Contains(searchString));
@@ -234,5 +235,39 @@ namespace GameSense.Controllers
         {
             return _context.Gamedb.Any(e => e.ID == id);
         }
+        
+        [Authorize]
+        public async Task<IActionResult> AddGameToList(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var game = await _context.Gamedb.FirstOrDefaultAsync(mbox => mbox.ID == id);
+            if (game == null)
+            {
+                return NotFound();
+            }
+
+            return View(game);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize]
+        public async Task<IActionResult> AddGameToList(int? gameId,User currentUser)
+        {
+            var userId = currentUser.Id;
+            _context.gameUserConnection.AddRange(
+                new GameList
+                {
+                    gameID = (int)gameId,
+                    userID = userId
+                });
+            _context.SaveChanges();
+            var game = await _context.Gamedb.FirstOrDefaultAsync(m => m.ID == gameId);
+            return View("Details", game);
+        }
+
     }
 }

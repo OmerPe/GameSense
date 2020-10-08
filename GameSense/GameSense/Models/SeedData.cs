@@ -286,11 +286,94 @@ namespace GameSense.Models
         {
             using (var context = new GameSenseContext(serviceProvider.GetRequiredService<DbContextOptions<GameSenseContext>>()))
             {
+                IQueryable<Game> Games = from i in context.Gamedb
+                                         select i;
                 if (context.Article.Any())
                 {
                     return; //db already seeded
                 }
                 context.Article.AddRange(
+
+                    new Article
+                    {
+                        GameID = 5,
+                        Path = "https://cdn1.dotesports.com/wp-content/uploads/2019/03/09144614/TL-Jensen.jpg",
+                        Content = "League Of Legends Worlds 2020 is underway and it aint dissapointing so far a shocking upset happened in group A," +
+                        "Team Liquid faced today against the former msi champions G2 esports in a nail biting game which they were able to execute a lvl 1 tactic" +
+                        "to grab the lead and close the game in under 35 minutes",
+                        BriefContent = "League Of Legends Worlds 2020 is underway and it aint dissapointing so far a shocking upset happened in group A,",
+                        Likes = 0,
+                        Title = "Amazing Upset in Worlds 2020",
+                        Date = DateTime.Parse("2020-10-6")
+
+                    },
+                    new Article
+                    {
+                        GameID = 3,
+                        Path = "https://cdn-wp.thesportsrush.com/2020/09/Screenshot-127.png",
+                        Content = "The new rising game Among Us had us on our toes when we watched the Star Streamer DisgusiedToast" +
+                        "in a fascinating fashion Toast managed to make a comeback from a 1v6 imposter situation " +
+                        "while playing with his streamer friends he managed to decieve Pokimane in order to make her third imposter" +
+                        "in the end he managed to take them 1 by 1 and clutched the game it was unexpected",
+                        BriefContent = "The new rising game Among Us had us on our toes when we watched the Star Streamer DisgusiedToast",
+                        Likes = 0,
+                        Title = "Toast Amazing Comeback",
+                        Date = DateTime.Parse("2020-10-3")
+                    },
+                    new Article
+                    {
+                        GameID = 2,
+                        Path = "https://www.callofduty.com/content/dam/atvi/callofduty/cod-touchui/blog/body/mw-wz/MW-AS-VAL-Weapon-Detail-001.jpg",
+                        Content = "They did it the mad lads did it, the finally made a gun that pierces 10 walls" +
+                        "and breaks the game entirely." +
+                        "According to popular streamers that play the game the developers Infinity Ward released a new gun in order to spice up the game" +
+                        "but they made the complete opposite when they got the entire Call Of Duty infuriated with the new released gun AS Val" +
+                        "this is a game changing patch which will probably make people leave the game in favor of other battle royals",
+                        BriefContent = "They did it the mad lads did it, the finally made a gun that pierces 10 walls",
+                        Likes = 0,
+                        Title = "Game Changing Update",
+                        Date = DateTime.Parse("2020-9-28")
+
+                    },
+                    new Article
+                    {
+                        GameID = 4,
+                        Path = "https://cdn1.dotesports.com/wp-content/uploads/2020/10/07165813/Skye.jpg",
+                        Content = "As were rounding up the group stage of worlds 2020 were adding up to the last day of Group A" +
+                        "it has been known for quite a while that a new map and a new agent will be released to the game with the upcoming act" +
+                        "Although no one expected it to be this big of an update,Players all over the globe are excited about the new agent Skye" +
+                        "As people try to predict her kit based on her looks ,And the new anticipated map Ice Box as the game was really lacking in the map department" +
+                        "This is truely gonna be an insane patch that we wont be able to hold our anticipation for",
+                        BriefContent = "As were rounding up the group stage of worlds 2020 were adding up to the last day of Group A",
+                        Likes = 0,
+                        Title = "Insane Update in Valorant",
+                        Date = DateTime.Parse("2020-10-8")
+                    },
+                    new Article
+                    {
+                        GameID = 5,
+                        Path = "https://egg.network/wp-content/uploads/2020/08/WORLDS2020_TAKE_OVER_KV-1920x1080.jpg",
+                        Content = "As were rounding up the group stage of worlds 2020 were adding up to the last day of Group A" +
+                        "With some potentials upsets in the near future its unknown yet if the favorites G2 esports will make it out as the first seed," +
+                        "After the shocking loss to liquid the Group stage set up to amaze us with potential tiebreakers.",
+                        BriefContent = "As were rounding up the group stage of worlds 2020 were adding up to the last day of Group A",
+                        Likes = 0,
+                        Title = "Group A Round up",
+                        Date = DateTime.Parse("2020-10-8")
+                    },
+                    new Article
+                    {
+                        GameID = 3,
+                        Path = "https://i.ytimg.com/vi/75FF1LgUkJ0/mqdefault.jpg",
+                        Content = "Once again he never stop to amaze us who thought such a tactic would ever work." +
+                        "The popular streamer Sykkunu tricked his friends once again with the great tactic of saying its not me." +
+                        "while he stuck between a rock and a hard place heading into  a 1v6 situation he managed to deceive everyone." +
+                        "Using his incredible 500IQ tacitc he persistently said its not me during the meeting which took all the suspicions away from him. ",
+                        BriefContent = "Once again he never stop to amaze us who thought such a tactic would ever work.",
+                        Likes = 0,
+                        Title = "500IQ Tactic",
+                        Date = DateTime.Parse("2020-9-15")
+                    }
                     );
 
                 context.SaveChanges();

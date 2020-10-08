@@ -1,0 +1,21 @@
+﻿body {
+}
+.title{
+    font-size:xx-large;
+    text-align:center;
+}
+.subtitle{
+    font-size:xx-small;
+    text-align:center;
+}
+.content{
+    font-size:larger;
+}
+.image {
+    height: 250px;
+    width: 100%;
+    vertical-align: bottom;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}

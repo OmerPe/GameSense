@@ -1,13 +1,15 @@
 ﻿body {
 }
-.left-bar{
-    border-right:1px solid #bbb;
-    float:left;
-    width:72%;
-    padding:0 20px 0 20px;
-    margin-top:20px;
-    height:auto;
+
+.left-bar {
+    border-right: 1px solid #bbb;
+    float: left;
+    width: 72%;
+    padding: 0 20px 0 20px;
+    margin-top: 20px;
+    height: auto;
 }
+
 .right-bar {
     float: right;
     display: inline;
@@ -15,6 +17,7 @@
     margin: 20px 20px 0 0;
     height: auto;
 }
+
 .art-img {
     width: 260px;
     height: 100px;
@@ -24,8 +27,18 @@
     background-repeat: no-repeat;
     background-size: cover;
     border-radius: 15px;
-    padding-top:5px;
+    padding-top: 5px;
 }
+
 .Article-Item {
     overflow: hidden;
+    margin: 10px 0 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+.h4 {
+    overflow: hidden;
+    margin: 10px 0 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
 }

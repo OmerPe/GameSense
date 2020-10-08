@@ -24,6 +24,8 @@ namespace GameSense.Data
             // Add your customizations after calling base.OnModelCreating(builder);
         }
         public DbSet<Game> Gamedb { get; set; }
-        public DbSet<GameSense.Models.Article> Article { get; set; }
+        public DbSet<Article> Article { get; set; }
+        public DbSet<GameList> gameUserConnection { get; set; }
+        public DbSet<gameArticle> gameArticleConnection { get; set; }
     }
 }

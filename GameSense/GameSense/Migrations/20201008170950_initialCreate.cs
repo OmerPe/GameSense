@@ -35,6 +35,20 @@ namespace GameSense.Data.Migrations
                 defaultValue: "");
 
             migrationBuilder.CreateTable(
+                name: "gameArticleConnection",
+                columns: table => new
+                {
+                    id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    gameID = table.Column<int>(nullable: false),
+                    articleID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_gameArticleConnection", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Gamedb",
                 columns: table => new
                 {
@@ -57,6 +71,20 @@ namespace GameSense.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "gameUserConnection",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    userID = table.Column<string>(type: "nvarchar(460)", nullable: true),
+                    gameID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_gameUserConnection", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Article",
                 columns: table => new
                 {
@@ -65,7 +93,10 @@ namespace GameSense.Data.Migrations
                     GameID = table.Column<int>(nullable: false),
                     Path = table.Column<string>(nullable: true),
                     Content = table.Column<string>(nullable: true),
-                    Likes = table.Column<int>(nullable: false)
+                    BriefContent = table.Column<string>(nullable: true),
+                    Likes = table.Column<int>(nullable: false),
+                    Title = table.Column<string>(nullable: true),
+                    Date = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -88,6 +119,12 @@ namespace GameSense.Data.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Article");
+
+            migrationBuilder.DropTable(
+                name: "gameArticleConnection");
+
+            migrationBuilder.DropTable(
+                name: "gameUserConnection");
 
             migrationBuilder.DropTable(
                 name: "Gamedb");
