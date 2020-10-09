@@ -26,9 +26,21 @@ namespace GameSense.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var gameContext = _context.Article.Include(a => a.game);
-            return View(await gameContext.ToListAsync());
+            var articles = (from art in _context.Article
+                            orderby art.Date descending
+                            select art).Take(6);
+            //var gameContext = _context.Article.Include(a => a.game);
+            return View(await articles.ToListAsync());
         }
+        /*public async Task<IActionResult> Index(string usr)
+        {
+            var articles = (from art in _context.Article
+                            orderby art.Likes descending
+                            select art).Take(6);
+            //var gameContext = _context.Article.Include(a => a.game);
+            return View(await articles.ToListAsync());
+        }
+        */
 
         public IActionResult Privacy()
         {

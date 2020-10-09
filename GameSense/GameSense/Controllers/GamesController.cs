@@ -295,6 +295,30 @@ namespace GameSense.Controllers
 
             
         }
+        public async Task<IActionResult> MyList(string user)
+        {
+            IQueryable<string> genreQuery = from G in _context.Gamedb
+                                            orderby G.Genre
+                                            select G.Genre;
+            IQueryable<string> devQuery = from D in _context.Gamedb
+                                          orderby D.Developer
+                                          select D.Developer;
+            var games = from game in _context.Gamedb 
+                        join usr 
+                        in _context.gameUserConnection 
+                        on game.ID 
+                        equals usr.gameID 
+                        where usr.userID == user 
+                        select game;
+
+            var GameSearch = new GameSearchModel
+            {
+                Genres = new SelectList(await genreQuery.Distinct().ToListAsync()),
+                Developers = new SelectList(await devQuery.Distinct().ToListAsync()),
+                Games = await games.ToListAsync()
+            };
+            return View("UserIndex", GameSearch);
+        }
 
         public bool isConnected(int gameid,string userid)
         {
