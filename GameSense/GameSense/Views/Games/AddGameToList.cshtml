@@ -29,6 +29,7 @@
                     if (data == true) {
                         me.find('i').removeClass('fa-list-alt');
                         me.find('i').addClass('fa-check-square');
+                        document.getElementById('del').style.display = "block";
                         document.getElementById('btnTxt').textContent = "In list";
                     }
                 }
@@ -44,9 +45,12 @@
                     <i id="icon" class="fas fa-list-alt"></i>
                     <div id="btnTxt">Add to List</div>
                 </button>
+                <a id="del" asp-action="myListDelete" asp-route-id="@Model.ID" style="display:none"><i id="icon" class="fas fa-eraser"></i>Remove from my list</a>
             </form>
         </div>
     </div>
+
+    
 
     <script>
         function addToList() {
@@ -68,7 +72,9 @@
                         me.find('form').removeAttr('onsubmit');
                         me.find('i').removeClass('fa-list-alt');
                         me.find('i').addClass('fa-check-square');
+                        document.getElementById('del').style.display = "block";
                         document.getElementById('btnTxt').textContent = "In list";
+                        
                     }
                 }
             });

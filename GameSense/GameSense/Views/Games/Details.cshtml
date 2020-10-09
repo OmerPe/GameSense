@@ -1,19 +1,23 @@
 ﻿@model GameSense.Models.Game
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
 @{
-    ViewData["Title"] = ViewBag.Name;
+    ViewData["Title"] = ViewBag.Name; 
+    var user = await UserManager.GetUserAsync(User);
 }
 <link href="~/css/DetailStyle.css" rel="stylesheet" />
 <style>
     /* Set the size of the div element that contains the map */
     #map {
-        height: 400px; 
+        height: 400px;
         width: 50%;
     }
 </style>
 <div asp-controller="Games" asp-action="UpdateViews" asp-route-id="@Model.ID"></div>
 <h1 style="text-align: center;
     padding-top: 10px;">
-   @Model.Name 
+    @Model.Name
 </h1>
 
 <div class="cardD mb-3">
