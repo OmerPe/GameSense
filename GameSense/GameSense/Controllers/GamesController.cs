@@ -15,13 +15,15 @@ namespace GameSense.Controllers
     public class GamesController : Controller
     {
         private readonly GameSenseContext _context;
+        private readonly UserManager<User> userManager;
 
         public string Genre { get; private set; }
         public string Developer { get; private set; }
 
-        public GamesController(GameSenseContext context)
+        public GamesController(GameSenseContext context, UserManager<User> um)
         {
             _context = context;
+            userManager = um;
         }
 
         [Authorize(Roles = "Admin")]
@@ -136,7 +138,7 @@ namespace GameSense.Controllers
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Name,ReleaseDate,Genre,ageRestriction,Developer,DeveloperLocation,Description,Path,Views")] Game game)
+        public async Task<IActionResult> Create([Bind("ID,Name,ReleaseDate,Genre,ageRestriction,Developer,lat,lng,Description,Path,Views")] Game game)
         {
             if (ModelState.IsValid)
             {
@@ -170,7 +172,7 @@ namespace GameSense.Controllers
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,ReleaseDate,Genre,ageRestriction,Developer,DeveloperLocation,Description,Path,Views")] Game game)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,ReleaseDate,Genre,ageRestriction,Developer,lat,lng,Description,Path,Views")] Game game)
         {
             if (id != game.ID)
             {
@@ -250,23 +252,51 @@ namespace GameSense.Controllers
                 return NotFound();
             }
 
-            return View(game);
+            return View("Details", game);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public async Task<IActionResult> AddGameToList(int? gameId,User currentUser)
+        public async Task<IActionResult> AddGameToList(int id,string userid)
         {
-            var userId = currentUser.Id;
-            _context.gameUserConnection.AddRange(
-                new GameList
+            var Gamelist = await _context.gameUserConnection.FirstOrDefaultAsync(mbox => mbox.userID == userid && mbox.gameID == id);
+            if (Gamelist == null)
+            {
+                if (id != 0 && userid != null)
                 {
-                    gameID = (int)gameId,
-                    userID = userId
-                });
-            _context.SaveChanges();
-            var game = await _context.Gamedb.FirstOrDefaultAsync(m => m.ID == gameId);
-            return View("Details", game);
+                    GameList tmp = new GameList
+                    {
+                        userID = userid,
+                        gameID = id
+                    };
+                    try
+                    {
+                        _context.gameUserConnection.Update(tmp);
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!GameExists(tmp.ID))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                    Game game = await _context.Gamedb.FirstOrDefaultAsync(mbox => mbox.ID == tmp.gameID);
+                    return View("Details", game);
+                }
+                return RedirectToAction(nameof(UserIndex));
+            }
+            else
+            {
+                Game game = await _context.Gamedb.FirstOrDefaultAsync(mbox => mbox.ID == Gamelist.gameID);
+                return View("Details", game);
+            }
+
+            
         }
 
     }
