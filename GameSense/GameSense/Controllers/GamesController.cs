@@ -10,20 +10,19 @@ using GameSense.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 
+
 namespace GameSense.Controllers
 {
     public class GamesController : Controller
     {
         private readonly GameSenseContext _context;
-        private readonly UserManager<User> userManager;
 
         public string Genre { get; private set; }
         public string Developer { get; private set; }
 
-        public GamesController(GameSenseContext context, UserManager<User> um)
+        public GamesController(GameSenseContext context)
         {
             _context = context;
-            userManager = um;
         }
 
         [Authorize(Roles = "Admin")]
@@ -256,11 +255,9 @@ namespace GameSense.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
         public async Task<IActionResult> AddGameToList(int id,string userid)
         {
-            var Gamelist = await _context.gameUserConnection.FirstOrDefaultAsync(mbox => mbox.userID == userid && mbox.gameID == id);
-            if (Gamelist == null)
+            if (!isConnected(id, userid))
             {
                 if (id != 0 && userid != null)
                 {
@@ -292,11 +289,72 @@ namespace GameSense.Controllers
             }
             else
             {
-                Game game = await _context.Gamedb.FirstOrDefaultAsync(mbox => mbox.ID == Gamelist.gameID);
+                Game game = await _context.Gamedb.FirstOrDefaultAsync(mbox => mbox.ID == id);
                 return View("Details", game);
             }
 
             
+        }
+
+        public bool isConnected(int gameid,string userid)
+        {
+            return _context.gameUserConnection.Any(con => con.gameID == gameid && con.userID == userid);
+        }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> myListDelete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var game = await _context.Gamedb
+                .FirstOrDefaultAsync(m => m.ID == id);
+            if (game == null)
+            {
+                return NotFound();
+            }
+
+            return View(game);
+        }
+
+        // POST: Games/Delete/5
+        [Authorize(Roles = "Admin")]
+        [HttpPost, ActionName("myListDelete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> myListDeleteConfirmed(int id)
+        {
+            var game = await _context.Gamedb.FindAsync(id);
+            _context.Gamedb.Remove(game);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        [Authorize]
+        public async Task<IActionResult> MyList(string user)
+        {
+            IQueryable<string> genreQuery = from G in _context.Gamedb
+                                            orderby G.Genre
+                                            select G.Genre;
+            IQueryable<string> devQuery = from D in _context.Gamedb
+                                          orderby D.Developer
+                                          select D.Developer;
+            var games = from game in _context.Gamedb
+                        join usr
+                        in _context.gameUserConnection
+                        on game.ID
+                        equals usr.gameID
+                        where usr.userID == user
+                        select game;
+
+            var GameSearch = new GameSearchModel
+            {
+                Genres = new SelectList(await genreQuery.Distinct().ToListAsync()),
+                Developers = new SelectList(await devQuery.Distinct().ToListAsync()),
+                Games = await games.ToListAsync()
+            };
+            return View("UserIndex", GameSearch);
         }
 
     }

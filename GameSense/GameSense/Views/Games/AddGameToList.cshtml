@@ -2,24 +2,81 @@
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery antiforgery
 @{
     var user = await UserManager.GetUserAsync(User);
 }
 
 @if (SignInManager.IsSignedIn(User))
 {
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var gid = @Model.ID;
+            var uid = '@user.Id';
+            var me = $(this);
+            $.ajax({
+                type:'get',
+                url:'@Url.Action("isConnected","Games")',
+                data:
+                {
+                    'gameid' : gid,
+                    'userid' : uid,
+                },
+                cache: false,
+                async: false,
+                success: function (data) {
+                    if (data == true) {
+                        me.find('i').removeClass('fa-list-alt');
+                        me.find('i').addClass('fa-check-square');
+                        document.getElementById('btnTxt').textContent = "In list";
+                    }
+                }
+            });
+        });
+
+    </script>
+
     <div class="row">
         <div class="col-md-4">
-            <form asp-action="AddGameToList" method="post">
-                <input asp-for="@Model.ID" name="id" type="hidden" />
-                <input asp-for="@user.Id" name="userid" type="hidden" />
-                <div class="form-group">
-                    <input type="submit" value="Add to my list!" class="btn btn-secondary" />
-                </div>
+            <form class="form-inline" onsubmit="addToList()">
+                <button class="form-group btn" type="submit">
+                    <i id="icon" class="fas fa-list-alt"></i>
+                    <div id="btnTxt">Add to List</div>
+                </button>
             </form>
         </div>
     </div>
+
+    <script>
+        function addToList() {
+            event.preventDefault();
+            var id = @Model.ID;
+            var userid = '@user.Id';
+            var me = $(this);
+            $.ajax({
+                type:'POST',
+                url:'@Url.Action("AddGameToList", "Games")',
+                data:{
+                    'id':id,
+                    'userid':userid,
+                },
+                headers: { "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val() },
+                cache: false,
+                success: function (data) {
+                    if (data != null) {
+                        me.find('form').removeAttr('onsubmit');
+                        me.find('i').removeClass('fa-list-alt');
+                        me.find('i').addClass('fa-check-square');
+                        document.getElementById('btnTxt').textContent = "In list";
+                    }
+                }
+            });
+        }
+    </script>
 }
+
+
 
 
 
