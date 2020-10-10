@@ -27,5 +27,6 @@ namespace GameSense.Data
         public DbSet<Article> Article { get; set; }
         public DbSet<GameList> gameUserConnection { get; set; }
         public DbSet<gameArticle> gameArticleConnection { get; set; }
+        public DbSet<articleUser> articleUserConnection { get; set; }
     }
 }

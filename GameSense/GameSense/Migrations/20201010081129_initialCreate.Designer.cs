@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GameSense.Data.Migrations
 {
     [DbContext(typeof(GameSenseContext))]
-    [Migration("20201008170950_initialCreate")]
+    [Migration("20201010081129_initialCreate")]
     partial class initialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -198,6 +198,25 @@ namespace GameSense.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("GameSense.Models.articleUser", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("articleID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("userID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(460)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("articleUserConnection");
                 });
 
             modelBuilder.Entity("GameSense.Models.gameArticle", b =>

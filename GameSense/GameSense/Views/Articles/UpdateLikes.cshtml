@@ -1,35 +1,79 @@
 ﻿@model GameSense.Models.Article
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery antiforgery
+@{
+    var user = await UserManager.GetUserAsync(User);
+}
 
-<form onsubmit="Like()">
-    <div class="form-group">
-        <label id="likes">@Html.DisplayFor(model => model.Likes)</label>
-        <button type="submit" id="Like-btn" class="btn"><i id="icon" class="fa fa-thumbs-up"></i>Like</button>
-    </div>
-</form>
 
-
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-<script>
-
-    function Like() {
-        event.preventDefault()
-        document.getElementById("Like-btn").style.backgroundColor = "transparent";
-        document.getElementById("Like-btn").style.border = "1px solid #029acf;";
-        document.getElementById("Like-btn").style.color = "black";
-
-        
-        var id = @Model.ID;
-        $.ajax({
-            type:"post",
-            url:'@Url.Action("Addlike","Articles")',
+@if (SignInManager.IsSignedIn(User))
+{
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var aid = @Model.ID;
+            var uid = '@user.Id';
+            $.ajax({
+            type:"get",
+            url:'@Url.Action("isLiked","Articles")',
             data:
             {
-               'id' :id,
+                'id': aid,
+                'userid':uid
             },
             cache: false,
             success: function (data) {
-                $('#likes').html(data);
+                if (data == true) {
+                    document.getElementById("Like-btn").style.backgroundColor = "transparent";
+                    document.getElementById("Like-btn").style.border = "1px solid #029acf;";
+                    document.getElementById("Like-btn").style.color = "black";
+                    document.getElementById("txt").textContent = "Liked";
+                }
             }
+            });
         });
-    }
-</script>
+    </script>
+
+    <form onsubmit="Like()">
+        <div class="form-group form-inline">
+            <label id="likes">@Html.DisplayFor(model => model.Likes)</label>
+            <button type="submit" id="Like-btn" class="btn">
+                <i id="icon" class="fa fa-thumbs-up"></i>
+                <div id="txt">Like</div>
+            </button>
+        </div>
+    </form>
+
+    <script>
+
+        function Like() {
+            event.preventDefault()
+            document.getElementById("Like-btn").style.backgroundColor = "transparent";
+            document.getElementById("Like-btn").style.border = "1px solid #029acf;";
+            document.getElementById("Like-btn").style.color = "black";
+            document.getElementById("txt").textContent = "Liked";
+
+            var aid = @Model.ID;
+            var uid = '@user.Id';
+            $.ajax({
+                type:"post",
+                url:'@Url.Action("UpdateLikes", "Articles")',
+                data:
+                {
+                    'id': aid,
+                    'userid': uid
+                },
+                cache: false,
+                headers: { "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val() },
+                success: function (data) {
+                    $('#likes').html(data);
+                }
+            });
+        }
+    </script>
+}
+
+
+

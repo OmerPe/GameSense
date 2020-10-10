@@ -35,6 +35,20 @@ namespace GameSense.Data.Migrations
                 defaultValue: "");
 
             migrationBuilder.CreateTable(
+                name: "articleUserConnection",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    userID = table.Column<string>(type: "nvarchar(460)", nullable: false),
+                    articleID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_articleUserConnection", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "gameArticleConnection",
                 columns: table => new
                 {
@@ -119,6 +133,9 @@ namespace GameSense.Data.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Article");
+
+            migrationBuilder.DropTable(
+                name: "articleUserConnection");
 
             migrationBuilder.DropTable(
                 name: "gameArticleConnection");

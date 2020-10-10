@@ -198,6 +198,25 @@ namespace GameSense.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("GameSense.Models.articleUser", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("articleID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("userID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(460)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("articleUserConnection");
+                });
+
             modelBuilder.Entity("GameSense.Models.gameArticle", b =>
                 {
                     b.Property<int>("id")

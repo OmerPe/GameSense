@@ -38,19 +38,27 @@ namespace GameSense.Controllers
             return View("Details", article);
         }
 
-        [HttpPost, ActionName("UpdateLikes")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UpdateLikesConfirmed(int? id)
+        public async Task<int> UpdateLikes(int id, string userid)
         {
-            if (id == null)
+            if (!isLiked(id, userid))
             {
-                return View("Index");
-            }
-            Article update = _context.Article.ToList().Find(a => a.ID == id);
+                Article update = _context.Article.ToList().Find(a => a.ID == id);
+                update.Likes += 1;
 
-            update.Likes += 1;
-            await _context.SaveChangesAsync();
-            return View("Details", update);
+                articleUser tmp = new articleUser {
+                    articleID = id,
+                    userID = userid
+                };
+
+                _context.articleUserConnection.Update(tmp);
+                await _context.SaveChangesAsync();
+
+                return update.Likes;
+            }
+            Article article = _context.Article.ToList().Find(a => a.ID == id);
+            return article.Likes;
         }
 
         public int Addlike(int? id)
@@ -202,6 +210,7 @@ namespace GameSense.Controllers
 
             return View(article);
         }
+
         [Authorize(Roles = "Admin,Editor")]
         // POST: Articles/Delete/5
         [HttpPost, ActionName("Delete")]
@@ -217,6 +226,11 @@ namespace GameSense.Controllers
         private bool ArticleExists(int id)
         {
             return _context.Article.Any(e => e.ID == id);
+        }
+
+        public bool isLiked(int id,string userid)
+        {
+            return _context.articleUserConnection.Any(e => e.articleID == id && e.userID == userid);
         }
     }
 }
