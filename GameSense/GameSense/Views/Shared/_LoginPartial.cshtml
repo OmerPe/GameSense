@@ -4,13 +4,59 @@
 @{
     var user = await UserManager.GetUserAsync(User);
 }
+<style>
+    .notification {
+        position: relative;
+        text-align: right;
+    }
+
+    .notification-menu {
+        position: absolute;
+        top: 50px;
+        left: -150px;
+        background-color: #e5e5e5;
+        border: #989898;
+        padding: 10px;
+        list-style: none;
+        width: 250px;
+        display: none;
+        text-align: left;
+    }
+
+    .notification-menu li {
+        background-color: #fff;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+
+    .notification-menu h3 {
+        font-size: 15px;
+        margin: 0 0 5px 0;
+        display: inline;
+    }
+
+    .notification-menu p {
+        margin-bottom: 0;
+        font-size: 14px;
+    }
+</style>
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item">
             <a class="nav-link text-light">
-                <i class="far fa-bell"></i>
                 <i class="fas fa-bell" hidden></i><!-- this is to save the icon class for later -->
+                <div class="notification">
+                    <i class="far fa-bell"></i>
+                    <ul class="notification-menu">
+                        <li>
+                            test1
+                        </li>
+                        <li>
+                            test2
+                        </li>
+                    </ul>
+                </div>
             </a>
         </li>
         <li class="nav-item">
@@ -21,6 +67,8 @@
                 <button type="submit" class="nav-link btn btn-link text-light">Logout</button>
             </form>
         </li>
+
+
     }
     else
     {
@@ -29,3 +77,11 @@
         </li>
     }
 </ul>
+<script>
+    var main = function () {
+        $('.notification i').click(function () {
+            $('.notification-menu').toggle();
+        });
+    };
+    $(document).ready(main); 
+</script>
