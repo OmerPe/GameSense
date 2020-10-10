@@ -8,6 +8,12 @@
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item">
+            <a class="nav-link text-light">
+                <i class="far fa-bell"></i>
+                <i class="fas fa-bell" hidden></i><!-- this is to save the icon class for later -->
+            </a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link text-light" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @user.MyUserName!</a>
         </li>
         <li class="nav-item">
