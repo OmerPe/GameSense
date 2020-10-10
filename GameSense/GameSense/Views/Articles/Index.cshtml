@@ -13,7 +13,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.game)
+                Game
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Path)
@@ -31,7 +31,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.game.Description)
+                @Html.DisplayFor(modelItem => item.game.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Path)
@@ -43,8 +43,8 @@
                 @Html.DisplayFor(modelItem => item.Likes)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a>
+                <a asp-action="Details" asp-route-id="@item.ID">Details</a>
                 <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
             </td>
         </tr>

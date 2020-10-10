@@ -101,7 +101,7 @@ namespace GameSense.Controllers
         // GET: Articles/Create
         public IActionResult Create()
         {
-            ViewData["GameID"] = new SelectList(_context.Gamedb, "ID", "Description");
+            ViewData["GameID"] = new SelectList(_context.Gamedb, "ID", "Name");
             return View();
         }
 
@@ -133,7 +133,7 @@ namespace GameSense.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["GameID"] = new SelectList(_context.Gamedb, "ID", "Description", article.GameID);
+            ViewData["GameID"] = new SelectList(_context.Gamedb, "ID", "Name", article.GameID);
             return View(article);
         }
 
@@ -151,7 +151,7 @@ namespace GameSense.Controllers
             {
                 return NotFound();
             }
-            ViewData["GameID"] = new SelectList(_context.Gamedb, "ID", "Description", article.GameID);
+            ViewData["GameID"] = new SelectList(_context.Gamedb, "ID", "Name", article.GameID);
             return View(article);
         }
 
@@ -161,7 +161,7 @@ namespace GameSense.Controllers
         [Authorize(Roles = "Admin,Editor")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,GameID,Path,Content,Likes")] Article article)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,GameID,Path,Title,Content,BriefContent,Likes")] Article article)
         {
             if (id != article.ID)
             {
@@ -188,7 +188,7 @@ namespace GameSense.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["GameID"] = new SelectList(_context.Gamedb, "ID", "Description", article.GameID);
+            ViewData["GameID"] = new SelectList(_context.Gamedb, "ID", "Name", article.GameID);
             return View(article);
         }
         [Authorize(Roles = "Admin,Editor")]
