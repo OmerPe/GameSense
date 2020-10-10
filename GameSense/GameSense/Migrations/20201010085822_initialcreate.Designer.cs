@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GameSense.Data.Migrations
 {
     [DbContext(typeof(GameSenseContext))]
-    [Migration("20201010081129_initialCreate")]
-    partial class initialCreate
+    [Migration("20201010085822_initialcreate")]
+    partial class initialcreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
