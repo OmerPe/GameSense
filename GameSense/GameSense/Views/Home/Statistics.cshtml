@@ -128,7 +128,6 @@ const x2 = d3.scaleBand()
 const y2 = d3.scaleLinear()
     .domain([0,dataobj[0].count]).nice()
     .range([height2 - margin2.bottom, margin2.top])
-
 svg2
     .append("g")
     .attr("fill", 'royalblue')
@@ -155,7 +154,7 @@ function xAxis(g) {
         }
 svg2.append("g").call(xAxis);
 svg2.append("g").call(yAxis);
-svg2.node();
+        svg2.node();
     </script>
 
 </body>

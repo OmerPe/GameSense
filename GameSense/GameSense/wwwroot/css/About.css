@@ -1,0 +1,9 @@
+﻿body {
+}
+.Column {
+    column-count: 4;
+    column-gap: 40px;
+    column-rule: 1px solid lightblue;
+    column-span: all;
+    column-width: 100px;
+}
