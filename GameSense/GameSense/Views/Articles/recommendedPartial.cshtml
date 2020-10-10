@@ -1,0 +1,50 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+@inject GameSense.Data.GameSenseContext context
+@{
+    var user = await UserManager.GetUserAsync(User);
+}
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var uid = '@user.Id';
+            $.ajax({
+                type:"get",
+                url: '@Url.Action("IsRecommend", "Articles")',
+                data:
+                {
+                    'userid':uid
+                },
+                cache: false,
+                dataType:"JSON",
+                success: function (data) {
+                    console.log(data);
+                    var retVal = $.parseJSON(data);
+                    var artid = retVal["ID"];
+                    var title = retVal["Title"];
+                    var bri = retVal["BriefContent"];
+                    console.log(artid);
+                    console.log(title);
+                    console.log(bri);
+                    document.getElementById("refid").textContent = title;
+                    document.getElementById("par").textContent = bri;
+                    $("#ref").attr("href", "/Articles/Details?id="+artid);
+                }
+            });
+
+        });
+    </script>
+    <div class="card border-light mb-3" style="max-width: 40rem;">
+        <div class="card-header">You might also like : </div>
+        <div class="card-body">
+            <a id="ref"  >
+                <h3 id="refid"></h3>
+                <p id="par"></p>
+            </a>
+        </div>
+    </div>
+}

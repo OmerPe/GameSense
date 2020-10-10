@@ -1,7 +1,7 @@
 ﻿@model GameSense.Models.Article
-
 @{
     ViewData["Title"] = "Details";
+    
 }
 <link href="~/css/ArtDetails.css" rel="stylesheet" />
 
@@ -14,3 +14,4 @@
     <p>@Model.Content</p>
 </div>
 <partial name="UpdateLikes" />
+<partial name="recommendedPartial" />

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GameSense.Data.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class initialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -33,6 +33,20 @@ namespace GameSense.Data.Migrations
                 type: "nvarchar(100)",
                 nullable: false,
                 defaultValue: "");
+
+            migrationBuilder.CreateTable(
+                name: "articleUserConnection",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    userID = table.Column<string>(type: "nvarchar(460)", nullable: false),
+                    articleID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_articleUserConnection", x => x.ID);
+                });
 
             migrationBuilder.CreateTable(
                 name: "gameArticleConnection",
@@ -85,6 +99,22 @@ namespace GameSense.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "notification",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Headline = table.Column<string>(nullable: false),
+                    body = table.Column<string>(nullable: false),
+                    read = table.Column<bool>(nullable: false),
+                    userID = table.Column<string>(type: "nvarchar(460)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_notification", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Article",
                 columns: table => new
                 {
@@ -121,10 +151,16 @@ namespace GameSense.Data.Migrations
                 name: "Article");
 
             migrationBuilder.DropTable(
+                name: "articleUserConnection");
+
+            migrationBuilder.DropTable(
                 name: "gameArticleConnection");
 
             migrationBuilder.DropTable(
                 name: "gameUserConnection");
+
+            migrationBuilder.DropTable(
+                name: "notification");
 
             migrationBuilder.DropTable(
                 name: "Gamedb");

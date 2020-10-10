@@ -9,6 +9,8 @@ using GameSense.Data;
 using GameSense.Models;
 using Microsoft.AspNetCore.Authorization;
 using TweetSharp;
+using NReco;
+using Newtonsoft.Json;
 
 namespace GameSense.Controllers
 {
@@ -231,6 +233,70 @@ namespace GameSense.Controllers
         public bool isLiked(int id,string userid)
         {
             return _context.articleUserConnection.Any(e => e.articleID == id && e.userID == userid);
+        }
+
+        public JsonResult IsRecommend(string userid)
+        {
+
+            var articles = from art
+                            in _context.Article
+                            join a
+                            in (from game
+                                in _context.Gamedb
+                                join user
+                                in _context.gameUserConnection
+                                on game.ID
+                                equals user.gameID
+                                where user.userID == userid
+                                select game)
+                                on art.GameID
+                                equals a.ID
+                            select art;
+
+            if(!articles.Any())
+            {
+                return null;
+            }
+
+            IQueryable<string> genre = from game
+                                        in _context.Gamedb
+                                        join user
+                                        in _context.gameUserConnection
+                                        on game.ID
+                                        equals user.gameID
+                                        where user.userID == userid
+                                        select game.Genre;
+            
+            var gList = genre.ToList();
+            Dictionary<string, int> genreStat = new Dictionary<string, int>();
+            foreach (var g in gList)
+            {
+                if (genreStat.ContainsKey(g))
+                {
+                    genreStat[g] += 1;
+                }
+                else
+                {
+                    genreStat[g] = 1;
+                }
+            }
+
+            int arID = articles.First().ID;
+
+            foreach (var ar in articles)
+            {
+                string gen = ( _context.Gamedb.FirstOrDefault(m => m.ID == ar.GameID)).Genre;
+                int arGID = (_context.Article.FirstOrDefault(a => a.ID == arID)).GameID;
+                string arGen = (_context.Gamedb.FirstOrDefault(m => m.ID == arGID)).Genre;
+
+                if (genreStat[gen] > genreStat[arGen])
+                {
+                    arID = ar.ID;
+                }
+            }
+            var arti = _context.Article.FirstOrDefault(m => m.ID == arID);
+            var json = JsonConvert.SerializeObject(arti);
+            return Json(json);
         }
     }
 }

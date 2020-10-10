@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GameSense.Data.Migrations
 {
     [DbContext(typeof(GameSenseContext))]
-    [Migration("20201009081428_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20201010111021_initialCreate")]
+    partial class initialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -200,6 +200,25 @@ namespace GameSense.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("GameSense.Models.articleUser", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("articleID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("userID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(460)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("articleUserConnection");
+                });
+
             modelBuilder.Entity("GameSense.Models.gameArticle", b =>
                 {
                     b.Property<int>("id")
@@ -216,6 +235,33 @@ namespace GameSense.Data.Migrations
                     b.HasKey("id");
 
                     b.ToTable("gameArticleConnection");
+                });
+
+            modelBuilder.Entity("GameSense.Models.notifi", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Headline")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("body")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("read")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("userID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(460)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("notification");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
