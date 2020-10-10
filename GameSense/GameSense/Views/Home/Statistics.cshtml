@@ -1,0 +1,162 @@
+﻿
+@{
+    ViewData["Title"] = "Statistics";
+}
+<!DOCTYPE html>
+<html>
+
+<link href="~/css/Chart.css" rel="stylesheet" />
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<head>
+    <title>Statistics</title>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+</head>
+<body>
+
+    <div style="text-align: center;">
+        <h1>User Statistics</h1>
+        <h2>Article to Likes Stats</h2>
+        <div id="d3-container" />
+    </div>
+
+    <div>
+        <script>
+function test() {
+    var obj=$.ajax({
+               type: "get",
+               url: '@Url.Action("InfoGain","Home")',
+               data: {},
+               cache: false,
+               async: false,
+               success: function (data) {
+                  console.log(data)
+                  var dataobj = $.parseJSON(data)
+                 return dataobj;
+        }
+    }).responseJSON;
+    return obj;
+        }
+        var dataobj = test();
+        dataobj = $.parseJSON(dataobj);
+        console.log(dataobj);
+const width = 900;
+const height = 450;
+const margin = { top: 50, bottom: 50, left: 50, right: 50 };
+        dataobj.sort((a, b) => d3.descending(a.Like, b.Like));
+const svg = d3.select('#d3-container')
+    .append('svg')
+    .attr('width', width - margin.left - margin.right)
+    .attr('height', height - margin.top - margin.bottom)
+    .attr("viewBox", [0, 0, width, height]);
+
+const x = d3.scaleBand()
+    .domain(d3.range(dataobj.length))
+    .range([margin.left, width - margin.right])
+    .padding(0.1)
+
+const y = d3.scaleLinear()
+    .domain([0,dataobj[0].Like]).nice()
+    .range([height - margin.bottom, margin.top])
+
+svg
+    .append("g")
+    .attr("fill", 'royalblue')
+    .selectAll("rect")
+    .data(dataobj.sort((a, b) => d3.descending(a.Like, b.Like)))
+    .join("rect")
+    .attr("x", (d, i) => x(i))
+    .attr("y", d => y(d.Like))
+    .attr('title', (d) => d.Like)
+    .attr("class", "rect")
+    .attr("height", d => y(0) - y(d.Like))
+    .attr("width", x.bandwidth());
+
+function yAxis(g) {
+    g.attr("transform", `translate(${margin.left}, 0)`)
+        .call(d3.axisLeft(y).ticks(null, dataobj.format))
+        .attr("font-size", '20px')
+}
+
+function xAxis(g) {
+    g.attr("transform", `translate(0,${height - margin.bottom})`)
+        .call(d3.axisBottom(x).tickFormat(i => dataobj[i].id))
+        .attr("font-size", '20px')
+        }
+svg.append("g").call(xAxis);
+svg.append("g").call(yAxis);
+svg.node();
+        </script>
+    </div>
+    <div style="text-align: center;">
+        <h2>User to Game Owned Stats</h2>
+        <div id="d3-container2" />
+    </div>
+    <script>
+ function test() {
+    var obj=$.ajax({
+               type: "get",
+               url: '@Url.Action("InfoGain2","Home")',
+               data: {},
+               cache: false,
+               async: false,
+               success: function (data) {
+                  console.log(data)
+                  var dataobj = $.parseJSON(data)
+                 return dataobj;
+        }
+    }).responseJSON;
+    return obj;
+        }
+        var dataobj = test();
+        dataobj = $.parseJSON(dataobj);
+        console.log(dataobj);
+const width2 = 900;
+const height2 = 450;
+const margin2 = { top: 50, bottom: 50, left: 50, right: 50 };
+        dataobj.sort((a, b) => d3.descending(a.count, b.count));
+const svg2 = d3.select('#d3-container2')
+    .append('svg')
+    .attr('width', width2 - margin2.left - margin2.right)
+    .attr('height', height2 - margin2.top - margin2.bottom)
+    .attr("viewBox", [0, 0, width2, height2]);
+
+const x2 = d3.scaleBand()
+    .domain(d3.range(dataobj.length))
+    .range([margin2.left, width2 - margin2.right])
+    .padding(0.1)
+
+const y2 = d3.scaleLinear()
+    .domain([0,dataobj[0].count]).nice()
+    .range([height2 - margin2.bottom, margin2.top])
+
+svg2
+    .append("g")
+    .attr("fill", 'royalblue')
+    .selectAll("rect")
+    .data(dataobj.sort((a, b) => d3.descending(a.count, b.count)))
+    .join("rect")
+    .attr("x", (d, i) => x2(i))
+    .attr("y", d => y2(d.count))
+    .attr('title', (d) => d.count)
+    .attr("class", "rect")
+    .attr("height", d => y2(0) - y2(d.count))
+    .attr("width", x2.bandwidth());
+
+function yAxis(g) {
+    g.attr("transform", `translate(${margin2.left}, 0)`)
+        .call(d3.axisLeft(y2).ticks(null, dataobj.format))
+        .attr("font-size", '20px')
+}
+
+function xAxis(g) {
+    g.attr("transform", `translate(0,${height2 - margin2.bottom})`)
+        .call(d3.axisBottom(x2).tickFormat(i => dataobj[i].Name))
+        .attr("font-size", '20px')
+        }
+svg2.append("g").call(xAxis);
+svg2.append("g").call(yAxis);
+svg2.node();
+    </script>
+
+</body>
+</html>

@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using System.IO;
 using System.Web;
 using TweetSharp;
+using Newtonsoft.Json;
 
 namespace GameSense.Controllers
 {
@@ -50,13 +51,42 @@ namespace GameSense.Controllers
         public IActionResult About()
         {
             return View();
+        } 
+        [HttpGet]
+        public JsonResult InfoGain()
+        {
+            var Article = from a in _context.Article
+                          select new
+                          {
+                              id = a.ID,
+                              Like = a.Likes,
+                          };
+            var json = JsonConvert.SerializeObject(Article.ToArray());
+            return Json(json);
         }
-
+        public JsonResult InfoGain2()
+        {
+            var g = from game in _context.Gamedb
+                    join usr in _context.gameUserConnection
+                    on game.ID equals usr.gameID
+                    group game by game.Name into gameData
+                    select new
+                    {
+                        Name = gameData.Key,
+                        count = gameData.Count()
+                    };
+            var json = JsonConvert.SerializeObject(g.ToArray());
+            return Json(json);
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+        public IActionResult Statistics()
+        {
+            return View();
         }
     }
 }

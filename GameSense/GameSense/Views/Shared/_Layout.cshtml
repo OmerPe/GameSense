@@ -75,6 +75,21 @@
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="About">About</a>
                         </li>
                     }
+                    @if (User.IsInRole("Admin"))
+                    {
+                        @if ((string)ViewData["Title"] == "Statistics")
+                        {
+                            <li class="nav-item active">
+                                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Statistics">Statistics<span class="sr-only">(current)</span></a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Statistics">Statistics</a>
+                            </li>
+                        }
+                    }
 
                 </ul>
                 <partial name="_LoginPartial" />
